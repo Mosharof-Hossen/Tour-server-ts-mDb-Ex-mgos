@@ -34,13 +34,12 @@ const userSchema = new Schema<TUser>({
 //     this.find({userStatus : {$eq:"active"}});
 //     next()
 // })
-userSchema.post("find",function(docs,next){
-    docs.forEach((doc:TUser) => {
-        doc.name = doc.name.toUpperCase();
-    });
-    next();
-})
-
+// userSchema.post("find",function(docs,next){
+//     docs.forEach((doc:TUser) => {
+//         doc.name = doc.name.toUpperCase();
+//     });
+//     next();
+// })
 
 const User = model<TUser>('User', userSchema);
 export default User;

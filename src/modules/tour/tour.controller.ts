@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import { userServices } from './user.service';
+import { tourServices } from './tour.service';
 
-const createUser = async (req: Request, res: Response) => {
+const createTour = async (req: Request, res: Response) => {
     try {
-        const userData = req.body;
-        const result = await userServices.createUser(userData);
+        const payload = req.body;
+        const result = await tourServices.createTour(payload);
 
         res.status(200).json({
             success: true,
-            message: 'User is Created successfully',
+            message: 'Tour Created successfully',
             data: result,
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,13 +20,13 @@ const createUser = async (req: Request, res: Response) => {
         });
     }
 };
-const getAllUser = async (req: Request, res: Response) => {
+const getAllTour = async (req: Request, res: Response) => {
     try {
-        const result = await userServices.getAllUser();
+        const result = await tourServices.getAllTour()
 
         res.status(200).json({
             success: true,
-            message: 'Get Users successfully',
+            message: 'All Tour successfully loaded',
             data: result,
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,14 +38,14 @@ const getAllUser = async (req: Request, res: Response) => {
         });
     }
 };
-const getSingleUser = async (req: Request, res: Response) => {
+const getSingleTour = async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
-        const result = await userServices.getSingleUser(id);
+        const id = req.params.id
+        const result = await tourServices.getSingleTour(id)
 
         res.status(200).json({
             success: true,
-            message: 'Get Users successfully',
+            message: 'Single Tour successfully loaded',
             data: result,
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,15 +57,15 @@ const getSingleUser = async (req: Request, res: Response) => {
         });
     }
 };
-const updateUser = async (req: Request, res: Response) => {
+const updateTour = async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
-        const body = req.body;
-        const result = await userServices.updateUser(id, body);
+        const id = req.params.id
+        const payload = req.body;
+        const result = await tourServices.updateTour(id,payload)
 
         res.status(200).json({
             success: true,
-            message: 'User updated successfully',
+            message: 'Tour successfully updated',
             data: result,
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,14 +77,14 @@ const updateUser = async (req: Request, res: Response) => {
         });
     }
 };
-const deleteUser = async (req: Request, res: Response) => {
+const deleteTour = async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
-        const result = await userServices.deleteUser(id);
+        const id = req.params.id
+        const result = await tourServices.deleteTour(id)
 
         res.status(200).json({
             success: true,
-            message: 'User deleted successfully',
+            message: 'successfully deleted',
             data: result,
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -97,10 +97,12 @@ const deleteUser = async (req: Request, res: Response) => {
     }
 };
 
-export const UserController = {
-    createUser,
-    getAllUser,
-    getSingleUser,
-    updateUser,
-    deleteUser,
-};
+
+
+export const tourController = {
+    createTour,
+    getAllTour,
+    getSingleTour,
+    updateTour,
+    deleteTour
+}
