@@ -1,9 +1,7 @@
-import {  Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { userServices } from './user.service';
 import sendResponse from '../../utils/sendResponse';
-import {
-    StatusCodes,
-} from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
@@ -14,18 +12,18 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
         statusCode: StatusCodes.CREATED,
         message: 'User is Created successfully',
         success: true,
-        data: result
-    })
-})
+        data: result,
+    });
+});
 
-const getAllUser = catchAsync(async (req: Request, res: Response,) => {
+const getAllUser = catchAsync(async (req: Request, res: Response) => {
     const result = await userServices.getAllUser();
     sendResponse(res, {
         statusCode: StatusCodes.OK,
         message: 'Get Users successfully',
         success: true,
-        data: result
-    })
+        data: result,
+    });
 });
 
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
@@ -36,8 +34,8 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
         statusCode: StatusCodes.OK,
         data: result,
         message: 'Get User successfully',
-        success: true
-    })
+        success: true,
+    });
 });
 
 const updateUser = catchAsync(async (req: Request, res: Response) => {
@@ -49,9 +47,9 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
         statusCode: StatusCodes.OK,
         data: result,
         message: 'User updated successfully',
-        success: true
-    })
-})
+        success: true,
+    });
+});
 
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
     const id = req.params.id;
@@ -61,9 +59,8 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
         statusCode: StatusCodes.OK,
         data: result,
         message: 'User deleted successfully',
-        success: true
-    })
-
+        success: true,
+    });
 });
 
 export const UserController = {

@@ -1,8 +1,9 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { UserRouter } from './modules/user/user.router';
 import cors from 'cors';
 import { TourRouter } from './modules/tour/tour.router';
 import globalErrorHandler from './middlewares/globalErrorHandaler';
+import { BookingRouter } from './modules/booking/booking.route';
 
 const app = express();
 
@@ -12,11 +13,12 @@ app.use(cors());
 
 app.use('/api/v1/users', UserRouter);
 app.use('/api/v1/tours', TourRouter);
+app.use('/api/v1/bookings', BookingRouter);
 
 app.get('/', (req: Request, res: Response) => {
     res.send({ message: 'Hot server' });
 });
 
-app.use(globalErrorHandler)
+app.use(globalErrorHandler);
 
 export default app;

@@ -14,7 +14,7 @@ const getSingleTour = async (id: string) => {
     return result;
 };
 const updateTour = async (id: string, payload: Partial<TTour>) => {
-    const result = await Tour.findByIdAndUpdate(id, payload,{new:true});
+    const result = await Tour.findByIdAndUpdate(id, payload, { new: true });
     return result;
 };
 

@@ -27,6 +27,7 @@ const tourSchema = new Schema<TTour>({
     startLocation: String,
     locations: [String],
     slug: String,
+    availableSeats: { type: Number, required: true },
 });
 
 const Tour = model<TTour>('Tour', tourSchema);
