@@ -1,94 +1,70 @@
-import { NextFunction, Request, Response } from 'express';
+import {  Request, Response } from 'express';
 import { userServices } from './user.service';
 import sendResponse from '../../utils/sendResponse';
 import {
     StatusCodes,
 } from 'http-status-codes';
+import catchAsync from '../../utils/catchAsync';
 
-const createUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const userData = req.body;
-        const result = await userServices.createUser(userData);
+const createUser = catchAsync(async (req: Request, res: Response) => {
+    const userData = req.body;
+    const result = await userServices.createUser(userData);
 
-        sendResponse(res, {
-            statusCode: StatusCodes.CREATED,
-            message: 'User is Created successfully',
-            success: true,
-            data: result
-        })
+    sendResponse(res, {
+        statusCode: StatusCodes.CREATED,
+        message: 'User is Created successfully',
+        success: true,
+        data: result
+    })
+})
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-        next(err);
-    }
-};
+const getAllUser = catchAsync(async (req: Request, res: Response,) => {
+    const result = await userServices.getAllUser();
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        message: 'Get Users successfully',
+        success: true,
+        data: result
+    })
+});
 
-const getAllUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const result = await userServices.getAllUser();
-        sendResponse(res, {
-            statusCode: StatusCodes.OK,
-            message: 'Get Users successfully',
-            success: true,
-            data: result
-        })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-        next(err)
-    }
-};
+const getSingleUser = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const result = await userServices.getSingleUser(id);
 
-const getSingleUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const id = req.params.id;
-        const result = await userServices.getSingleUser(id);
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        data: result,
+        message: 'Get User successfully',
+        success: true
+    })
+});
 
-        sendResponse(res, {
-            statusCode: StatusCodes.OK,
-            data: result,
-            message: 'Get User successfully',
-            success: true
-        })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-        next(err)
-    }
-};
+const updateUser = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const body = req.body;
+    const result = await userServices.updateUser(id, body);
 
-const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const id = req.params.id;
-        const body = req.body;
-        const result = await userServices.updateUser(id, body);
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        data: result,
+        message: 'User updated successfully',
+        success: true
+    })
+})
 
-        sendResponse(res, {
-            statusCode: StatusCodes.OK,
-            data: result,
-            message: 'User updated successfully',
-            success: true
-        })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-        next(err)
-    }
-};
+const deleteUser = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const result = await userServices.deleteUser(id);
 
-const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const id = req.params.id;
-        const result = await userServices.deleteUser(id);
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        data: result,
+        message: 'User deleted successfully',
+        success: true
+    })
 
-        sendResponse(res, {
-            statusCode: StatusCodes.OK,
-            data: result,
-            message: 'User deleted successfully',
-            success: true
-        })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-        next(err)
-    }
-};
+});
 
 export const UserController = {
     createUser,
