@@ -1,7 +1,8 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { UserRouter } from './modules/user/user.router';
 import cors from 'cors';
 import { TourRouter } from './modules/tour/tour.router';
+import globalErrorHandler from './middlewares/globalErrorHandaler';
 
 const app = express();
 
@@ -15,5 +16,7 @@ app.use('/api/v1/tours', TourRouter);
 app.get('/', (req: Request, res: Response) => {
     res.send({ message: 'Hot server' });
 });
+
+app.use(globalErrorHandler)
 
 export default app;
