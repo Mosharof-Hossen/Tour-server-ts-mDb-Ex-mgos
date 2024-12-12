@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post(
     '/create-user',
-    // dataValidator(userValidation.createUserValidationSchema),
+    dataValidator(userValidation.createUserValidationSchema),
     UserController.createUser);
 router.get('/all-users', UserController.getAllUser);
 router.get('/:id', UserController.getSingleUser);
