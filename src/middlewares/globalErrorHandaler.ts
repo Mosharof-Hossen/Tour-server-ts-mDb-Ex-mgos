@@ -3,6 +3,8 @@
 import { NextFunction, Request, Response } from 'express';
 import config from '../config';
 import { TErrorSource } from '../interfaces/errors';
+import { ZodError } from 'zod';
+import handleZodError from '../errors/handleZodError';
 
 const globalErrorHandler = (
     err: any,
@@ -10,8 +12,8 @@ const globalErrorHandler = (
     res: Response,
     next: NextFunction
 ) => {
-    const statusCode = err.statusCode || 500;
-    const message = err.message || 'Something went wrong';
+    let statusCode = err.statusCode || 500;
+    let message = err.message || 'Something went wrong';
 
     let errorSources: TErrorSource = [
         {
@@ -20,13 +22,19 @@ const globalErrorHandler = (
         }
     ]
 
+    if (err instanceof ZodError) {
+        const simplifiedError = handleZodError(err);
+        errorSources = simplifiedError?.errorSources;
+        message = simplifiedError?.message;
+        statusCode = simplifiedError?.statusCode;
+    }
 
     return res.status(statusCode).json({
         success: false,
         message: message,
         errorSources,
         stack: config.node_env === "development" ? err?.stack : null,
-        err,
+        // err,
     });
 };
 
