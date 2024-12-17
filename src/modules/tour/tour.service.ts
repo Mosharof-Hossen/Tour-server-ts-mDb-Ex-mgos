@@ -20,6 +20,12 @@ const getAllTour = async (query: Record<string, unknown>) => {
             [field]: { $regex: searchTerm, $options: 'i' }
         }))
     });
+
+    const queryObj = { ...query };
+    const excludeFields = ['searchTerm'];
+    excludeFields.forEach((el) => delete queryObj[el]);
+    const result = await searchQuery.find(queryObj)
+
     return result;
 };
 
