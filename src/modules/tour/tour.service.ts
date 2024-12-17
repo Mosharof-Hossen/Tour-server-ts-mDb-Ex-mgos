@@ -5,10 +5,29 @@ const createTour = async (payload: TTour) => {
     const result = await Tour.create(payload);
     return result;
 };
-const getAllTour = async () => {
-    const result = await Tour.find();
+
+
+
+
+
+const getAllTour = async (query: Record<string, unknown>) => {
+    console.log(query);
+    const searchTerm = query.searchTerm || "";
+    const searchAbleFields = ['startLocation', 'locations', 'name', 'slug'];
+
+    const searchQuery = Tour.find({
+        $or: searchAbleFields.map((field) => ({
+            [field]: { $regex: searchTerm, $options: 'i' }
+        }))
+    });
     return result;
 };
+
+
+
+
+
+
 const getSingleTour = async (id: string) => {
     const result = await Tour.findById(id);
     return result;
