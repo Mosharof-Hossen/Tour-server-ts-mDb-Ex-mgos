@@ -11,8 +11,8 @@ const createTour = async (payload: TTour) => {
 
 
 const getAllTour = async (query: Record<string, unknown>) => {
-    console.log(query);
-    const searchTerm = query.searchTerm || "";
+
+    const searchTerm = query?.searchTerm || "";
     const searchAbleFields = ['startLocation', 'locations', 'name', 'slug'];
 
     const searchQuery = Tour.find({
@@ -22,9 +22,16 @@ const getAllTour = async (query: Record<string, unknown>) => {
     });
 
     const queryObj = { ...query };
-    const excludeFields = ['searchTerm'];
+    const excludeFields = ['searchTerm', 'limit', 'page'];
     excludeFields.forEach((el) => delete queryObj[el]);
-    const result = await searchQuery.find(queryObj)
+    const filterQuery = searchQuery.find(queryObj)
+
+    // pagination
+    console.log(query, queryObj);
+    const page = Number(query?.page) || 1;
+    const limit = Number(query?.limit) || 10;
+    const skip = (page - 1) * limit
+    const result = await filterQuery.find().skip(skip).limit(limit);
 
     return result;
 };
