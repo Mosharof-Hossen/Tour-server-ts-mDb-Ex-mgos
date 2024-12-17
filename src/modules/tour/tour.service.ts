@@ -22,7 +22,7 @@ const getAllTour = async (query: Record<string, unknown>) => {
     });
 
     const queryObj = { ...query };
-    const excludeFields = ['searchTerm', 'limit', 'page'];
+    const excludeFields = ['searchTerm', 'limit', 'page', 'sort','fields'];
     excludeFields.forEach((el) => delete queryObj[el]);
     const filterQuery = searchQuery.find(queryObj)
 
@@ -31,8 +31,15 @@ const getAllTour = async (query: Record<string, unknown>) => {
     const page = Number(query?.page) || 1;
     const limit = Number(query?.limit) || 10;
     const skip = (page - 1) * limit
-    const result = await filterQuery.find().skip(skip).limit(limit);
+    const paginationQuery = filterQuery.skip(skip).limit(limit);
 
+
+    // sorting
+    const sort = query?.sort || "createdAt"
+    const sortQuery = paginationQuery.sort(sort as string);
+
+    const fields = (query?.fields as string)?.split(',').join(" ") || "-__v";
+    const result = await sortQuery.select(fields);
     return result;
 };
 
