@@ -2,11 +2,13 @@ import express from 'express';
 import { UserController } from './user.controller';
 import dataValidator from '../../middlewares/dataValidator';
 import { userValidation } from './user.validation';
+import auth from '../../middlewares/auth';
 
 const router = express.Router();
 
 router.post(
     '/create-user',
+    auth("admin"),
     dataValidator(userValidation.createUserValidationSchema),
     UserController.createUser);
 router.get('/all-users', UserController.getAllUser);
