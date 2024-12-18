@@ -14,6 +14,8 @@ const createUserValidationSchema = z.object({
             .string()
             .email("Invalid email address")
             .nonempty("Email is required"),
+        password: z.string({ required_error: "password is required." }),
+
         photo: z.string().optional(),
         role: z
             .enum(["user", "admin"]),
